@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Induction Motor Fault Detection</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #eef4ff, #f8fbff);
+        color: #1f2937;
+        min-height: 100vh;
+    }
+
+    /* Navigation Bar */
+    nav {
+        width: 100%;
+        background: rgba(15, 23, 42, 0.97);
+        padding: 18px 7%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+        color: white;
+        font-size: 21px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 28px;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    nav a:hover {
+        color: #60a5fa;
+    }
+
+    /* Main Section */
+    .hero {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 7%;
+    }
+
+    .hero-content {
+        max-width: 1000px;
+        text-align: center;
+    }
+
+    .icon {
+        width: 85px;
+        height: 85px;
+        margin: 0 auto 25px;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    h1 {
+        font-size: clamp(32px, 5vw, 58px);
+        line-height: 1.15;
+        margin-bottom: 22px;
+        color: #111827;
+    }
+
+    h1 span {
+        color: #2563eb;
+    }
+
+    .subtitle {
+        max-width: 750px;
+        margin: 0 auto 35px;
+        font-size: clamp(17px, 2vw, 21px);
+        line-height: 1.7;
+        color: #64748b;
+    }
+
+    /* Buttons */
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 14px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .login-btn {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+    }
+
+    .login-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-3px);
+    }
+
+    .register-btn {
+        background: white;
+        color: #2563eb;
+        border: 2px solid #2563eb;
+    }
+
+    .register-btn:hover {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    /* Feature Cards */
+    .features {
+        margin-top: 55px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.13);
+    }
+
+    .card-icon {
+        font-size: 30px;
+        margin-bottom: 12px;
+    }
+
+    .card h3 {
+        margin-bottom: 8px;
+        color: #1e293b;
+    }
+
+    .card p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #64748b;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+
+        nav {
+            padding: 16px 5%;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .nav-links {
+            gap: 18px;
+        }
+
+        nav a {
+            font-size: 14px;
+        }
+
+        .hero {
+            padding: 45px 5%;
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
+        }
+
+        .features {
+            grid-template-columns: 1fr;
+            margin-top: 40px;
+        }
+
+        .buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            width: 220px;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 400px) {
+
+        .nav-links {
+            gap: 12px;
+        }
+
+        nav a {
+            font-size: 13px;
+        }
+
+        h1 {
+            font-size: 31px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- Navigation -->
+<nav>
+
+    <div class="logo">
+        ⚙ Motor Fault Detection
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/login/">Login</a>
+        <a href="/register/">Register</a>
+    </div>
+
+</nav>
+
+
+<!-- Hero Section -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="icon">
+            ⚙️
+        </div>
+
+        <h1>
+            Analysis of <span>Induction Motor</span>
+            Fault Conditions Detection
+        </h1>
+
+        <p class="subtitle">
+            An intelligent system for analyzing induction motor
+            operating conditions and detecting possible faults
+            for efficient and reliable motor performance.
+        </p>
+
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <a class="button login-btn" href="/login/">
+                🔐 Login
+            </a>
+
+            <a class="button register-btn" href="/register/">
+                📝 Register
+            </a>
+
+        </div>
+
+
+        <!-- Features -->
+        <div class="features">
+
+            <div class="card">
+
+                <div class="card-icon">🔍</div>
+
+                <h3>Fault Detection</h3>
+
+                <p>
+                    Analyze motor conditions and identify
+                    possible induction motor faults.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">📊</div>
+
+                <h3>Condition Analysis</h3>
+
+                <p>
+                    Analyze motor parameters to understand
+                    operating and fault conditions.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">⚡</div>
+
+                <h3>Reliable Performance</h3>
+
+                <p>
+                    Support early fault identification and
+                    improve motor monitoring and reliability.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</body>
+
+</html>
